@@ -12,7 +12,7 @@ test.describe("Validation codegen login functionality", () => {
         await expect(page.getByText('Please login to make')).toBeVisible();
     })
 
-    test(`should login sucessfully`, async ({ page }) => {
+    test(`should login sucessfully`,{tag: '@login'}, async ({ page }) => {
 
         //sucessfull login
         await page.getByLabel('Username').click();
@@ -25,7 +25,7 @@ test.describe("Validation codegen login functionality", () => {
 
     })
 
-    test(`should prevent login with incorrect cred`, async ({ page }) => {
+    test(`should prevent login with incorrect cred`,{tag: '@login'}, async ({ page }) => {
 
 
         // unsecessful login
