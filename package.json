@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "demo": "npx playwright test tests/codegen.spec.ts --headed"
+    "demo": "npx playwright test tests/codegen.spec.ts --headed",
+    "demo-api": "npx playwright test tests/api/user.api.spec.ts"
   },
   "keywords": [],
   "author": "",
