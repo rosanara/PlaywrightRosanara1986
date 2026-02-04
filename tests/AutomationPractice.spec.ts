@@ -1,5 +1,5 @@
 import {test,expect }from '@playwright/test';
-import { PracticeAutomation, SearchResultsPage } from '../PageObjects/practiceAutomation';
+import { PracticeAutomation, SearchResultsPage } from '../PageObjects/PracticeAutomation';
 
 //navigate to url : http://www.automationpractice.pl/index.php
 //validate the url 

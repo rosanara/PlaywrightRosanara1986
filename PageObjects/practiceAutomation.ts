@@ -15,8 +15,8 @@ export class PracticeAutomation {
     async navigateToHomePage(){
         await this.page.goto('http://www.automationpractice.pl/index.php');
     }
-    async searchTShirt(query:string){   
-        await this.searchInput.fill(query);
+    async searchTShirt(name:string){   
+        await this.searchInput.fill(name);
         await this.searchButton.click(); 
         await this.page.screenshot({ path: 'search-results.png', fullPage: true });       
     }
