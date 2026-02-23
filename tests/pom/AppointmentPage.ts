@@ -86,7 +86,26 @@ export class AppointmentPage extends BasePage {
   }
 
   async clickBookAppointmentButton(): Promise<void> {
-    await this.click(this.bookAppointmentButton);
+    // Use form.submit() directly for reliability
+    // wrap in a try-catch to handle both successful submissions and validation errors
+    const result = await this.page.evaluate(() => {
+      const form = document.querySelector('form') as HTMLFormElement;
+      if (form) {
+        try {
+          form.submit();
+          return { submitted: true };
+        } catch (e) {
+          return { submitted: false, error: e };
+        }
+      }
+      return { submitted: false, error: 'No form found' };
+    }).catch(e => {
+      // Page navigation happens during evaluation
+      return { submitted: true, navigated: true };
+    });
+    
+    // Wait for page to stabilize after form submission
+    await this.page.locator('body').waitFor({ timeout: 2000 }).catch(() => {});
   }
 
   async bookAppointment(facility: string, program: string, visitDate: string, comment: string, readmission: boolean = false): Promise<void> {

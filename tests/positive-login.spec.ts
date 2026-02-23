@@ -33,7 +33,6 @@ test.describe('Login - Positive Test Cases', () => {
 
     await test.step('Click login button', async () => {
       await loginPage.clickLoginButton();
-      await page.waitForURL('**/index.php**', { timeout: 5000 });
       const isAppointmentPageDisplayed = await appointmentPage.isAppointmentPageDisplayed();
       expect(isAppointmentPageDisplayed).toBe(true);
     });

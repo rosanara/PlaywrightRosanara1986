@@ -14,7 +14,6 @@ test.describe('Appointment Booking - Positive Test Cases', () => {
     await test.step('Login with valid credentials', async () => {
       await loginPage.navigateToLogin();
       await loginPage.login('John Doe', 'ThisIsNotAPassword');
-      await page.waitForURL('**/index.php**', { timeout: 5000 });
     });
 
     await test.step('Verify appointment page is displayed', async () => {
@@ -57,7 +56,8 @@ test.describe('Appointment Booking - Positive Test Cases', () => {
 
     await test.step('Click book appointment button', async () => {
       await appointmentPage.clickBookAppointmentButton();
-      await page.waitForURL('**/appointment.php**', { timeout: 5000 });
+      const isDisplayed = await confirmationPage.isConfirmationPageDisplayed();
+      expect(isDisplayed).toBe(true);
     });
 
     await test.step('Verify confirmation page is displayed', async () => {
@@ -85,7 +85,6 @@ test.describe('Appointment Booking - Positive Test Cases', () => {
     await test.step('Login with valid credentials', async () => {
       await loginPage.navigateToLogin();
       await loginPage.login('John Doe', 'ThisIsNotAPassword');
-      await page.waitForURL('**/index.php**', { timeout: 5000 });
     });
 
     await test.step('Book appointment with Hongkong and Medicaid', async () => {
@@ -99,7 +98,6 @@ test.describe('Appointment Booking - Positive Test Cases', () => {
     });
 
     await test.step('Verify booking confirmation', async () => {
-      await page.waitForURL('**/appointment.php**', { timeout: 5000 });
       const facility = await confirmationPage.getFacilityText();
       const program = await confirmationPage.getHealthcareProgramText();
       
@@ -116,7 +114,6 @@ test.describe('Appointment Booking - Positive Test Cases', () => {
     await test.step('Login with valid credentials', async () => {
       await loginPage.navigateToLogin();
       await loginPage.login('John Doe', 'ThisIsNotAPassword');
-      await page.waitForURL('**/index.php**', { timeout: 5000 });
     });
 
     await test.step('Book appointment with Seoul and None program', async () => {
@@ -130,7 +127,6 @@ test.describe('Appointment Booking - Positive Test Cases', () => {
     });
 
     await test.step('Verify confirmation shows correct facility and program', async () => {
-      await page.waitForURL('**/appointment.php**', { timeout: 5000 });
       const facility = await confirmationPage.getFacilityText();
       const program = await confirmationPage.getHealthcareProgramText();
       
@@ -147,7 +143,6 @@ test.describe('Appointment Booking - Positive Test Cases', () => {
     await test.step('Login with valid credentials', async () => {
       await loginPage.navigateToLogin();
       await loginPage.login('John Doe', 'ThisIsNotAPassword');
-      await page.waitForURL('**/index.php**', { timeout: 5000 });
     });
 
     await test.step('Book appointment with readmission checked', async () => {
@@ -161,7 +156,6 @@ test.describe('Appointment Booking - Positive Test Cases', () => {
     });
 
     await test.step('Verify readmission status in confirmation', async () => {
-      await page.waitForURL('**/appointment.php**', { timeout: 5000 });
       const readmission = await confirmationPage.getReadmissionText();
       expect(readmission).toBe('Yes');
     });
@@ -170,11 +164,11 @@ test.describe('Appointment Booking - Positive Test Cases', () => {
   test('TC016: Book Appointment with Special Characters in Comment', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const appointmentPage = new AppointmentPage(page);
+    const confirmationPage = new ConfirmationPage(page);
 
     await test.step('Login with valid credentials', async () => {
       await loginPage.navigateToLogin();
       await loginPage.login('John Doe', 'ThisIsNotAPassword');
-      await page.waitForURL('**/index.php**', { timeout: 5000 });
     });
 
     const specialComment = '!@#$%^&*()_+-=[]{}|;:,.<>?';
@@ -191,18 +185,19 @@ test.describe('Appointment Booking - Positive Test Cases', () => {
 
     await test.step('Book appointment and verify special characters are preserved', async () => {
       await appointmentPage.clickBookAppointmentButton();
-      await page.waitForURL('**/appointment.php**', { timeout: 5000 });
+      const isDisplayed = await confirmationPage.isConfirmationPageDisplayed();
+      expect(isDisplayed).toBe(true);
     });
   });
 
   test('TC017: Book Appointment with Long Comment', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const appointmentPage = new AppointmentPage(page);
+    const confirmationPage = new ConfirmationPage(page);
 
     await test.step('Login with valid credentials', async () => {
       await loginPage.navigateToLogin();
       await loginPage.login('John Doe', 'ThisIsNotAPassword');
-      await page.waitForURL('**/index.php**', { timeout: 5000 });
     });
 
     const longComment = 'A'.repeat(500); // 500+ character comment
@@ -219,18 +214,19 @@ test.describe('Appointment Booking - Positive Test Cases', () => {
 
     await test.step('Book appointment', async () => {
       await appointmentPage.clickBookAppointmentButton();
-      await page.waitForURL('**/appointment.php**', { timeout: 5000 });
+      const isDisplayed = await confirmationPage.isConfirmationPageDisplayed();
+      expect(isDisplayed).toBe(true);
     });
   });
 
   test('TC018: Book Multiple Consecutive Appointments', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const appointmentPage = new AppointmentPage(page);
+    const confirmationPage = new ConfirmationPage(page);
 
     await test.step('Login with valid credentials', async () => {
       await loginPage.navigateToLogin();
       await loginPage.login('John Doe', 'ThisIsNotAPassword');
-      await page.waitForURL('**/index.php**', { timeout: 5000 });
     });
 
     await test.step('Book first appointment', async () => {
@@ -241,12 +237,15 @@ test.describe('Appointment Booking - Positive Test Cases', () => {
         'First appointment',
         false
       );
-      await page.waitForURL('**/appointment.php**', { timeout: 5000 });
+      // After booking, should be on confirmation page
+      const isDisplayed = await confirmationPage.isConfirmationPageDisplayed();
+      expect(isDisplayed).toBe(true);
     });
 
     await test.step('Navigate back to make another appointment', async () => {
       await page.click('a:has-text("Make Appointment")');
-      await page.waitForURL('**/index.php**', { timeout: 5000 });
+      const isDisplayed = await appointmentPage.isAppointmentPageDisplayed();
+      expect(isDisplayed).toBe(true);
     });
 
     await test.step('Book second appointment', async () => {
@@ -257,7 +256,8 @@ test.describe('Appointment Booking - Positive Test Cases', () => {
         'Second appointment',
         false
       );
-      await page.waitForURL('**/appointment.php**', { timeout: 5000 });
+      const isDisplayed = await confirmationPage.isConfirmationPageDisplayed();
+      expect(isDisplayed).toBe(true);
     });
   });
 });

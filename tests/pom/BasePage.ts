@@ -40,7 +40,7 @@ export class BasePage {
   }
 
   async click(selector: string): Promise<void> {
-    await this.page.click(selector);
+    await this.page.locator(selector).click({ timeout: 10000 });
   }
 
   async getText(selector: string): Promise<string> {

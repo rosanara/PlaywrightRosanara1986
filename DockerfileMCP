@@ -1,0 +1,48 @@
+FROM mcr.microsoft.com/playwright:latest
+
+WORKDIR /app
+
+# Copy package files
+COPY package.json package-lock.json ./
+
+# Install dependencies
+RUN npm install
+
+# Install Playwright MCP
+RUN npm install @playwright/mcp
+
+# Copy your project files
+COPY . .
+
+# Expose MCP server port
+EXPOSE 3000
+
+# Run MCP server
+CMD ["npx", "@playwright/mcp@latest", "--port", "3000"]
+
+# run into the local directory and execute the following command to build the Docker image:
+
+    
+# Use official Playwright image
+FROM mcr.microsoft.com/playwright:playwright:v1.58.2-jammy
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files first (better caching)
+COPY package.json package-lock.json ./
+
+# Install dependencies
+RUN npm ci
+
+# Copy remaining project files
+COPY . .
+
+
+# Run tests
+CMD ["npx", "playwright", "test"]
+
+# copy the test results to a mounted volume for access outside the container
+
+
+ 

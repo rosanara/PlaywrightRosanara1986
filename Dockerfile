@@ -1,17 +1,27 @@
-# Use official Playwright image
-FROM mcr.microsoft.com/playwright:v1.58.2-jammy
+ 
+# copy the test results to a mounted volume for access outside the container
+ 
 
-# Set working directory
+
+
+FROM mcr.microsoft.com/playwright::v1.58.2-jammy
+
 WORKDIR /app
 
-# Copy package files first (better caching)
+# Copy package files
 COPY package.json package-lock.json ./
 
 # Install dependencies
-RUN npm ci
+RUN npm install
 
-# Copy remaining project files
+# Install Playwright MCP
+RUN npm install @playwright/mcp
+
+# Copy your project files
 COPY . .
 
-# Run tests
-CMD ["npx", "playwright", "test"]
+# Expose MCP server port
+EXPOSE 3000
+
+# Run MCP server
+CMD ["npx", "@playwright/mcp@latest", "--port", "3000"]

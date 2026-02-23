@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  playwright-mcp:
+    build: .
+    container_name: playwright-mcp-server
+    env_file: 
+      - .env      # Load environment variables from .env file
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./playwright-report:/app/playwright-report
+      - ./test-results:/app/test-results
+    environment:
+      - CI=true
+    ipc: host
+    command: npx @playwright/mcp@latest --port 3000
