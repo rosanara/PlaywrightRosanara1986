@@ -34,11 +34,14 @@ export class HomePage extends BasePage {
   }
 
   async clickHomeLink(): Promise<void> {
+   await this.page.getByRole('link', { name: '' }).click(); // open menu
     await this.page.click('a:has-text("Home")');
   }
 
   async clickCuraLogo(): Promise<void> {
-    await this.click(this.curaLogoLink);
+    //await this.click(this.curaLogoLink);
+     await this.page.getByRole('link', { name: '' }).click(); // open menu
+    await this.page.getByRole('link', { name: 'CURA Healthcare' }).click();
   }
 
   async getPageUrl(): Promise<string> {

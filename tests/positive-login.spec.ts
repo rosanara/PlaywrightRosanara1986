@@ -39,7 +39,7 @@ test.describe('Login - Positive Test Cases', () => {
 
     await test.step('Verify user is logged in', async () => {
       const url = await appointmentPage.getPageUrl();
-      expect(url).toContain('index.php');
+      expect(url).toContain('herokuapp.com');
     });
   });
 

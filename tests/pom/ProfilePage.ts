@@ -37,7 +37,11 @@ export class ProfilePage extends BasePage {
   }
 
   async clickLogoutLink(): Promise<void> {
-    await this.page.click('a:has-text("Logout")');
+  await this.page
+    .locator('section, div') // scope if needed
+    .getByRole('link', { name: 'Logout' })
+    .last()
+    .click();
   }
 
   async isLogoutLinkVisible(): Promise<boolean> {
