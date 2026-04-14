@@ -1,0 +1,13 @@
+{
+  "checkoutTests": {
+    "validCheckout": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "zipCode": "12345"
+    },
+    "partialCheckout": {
+      "firstName": "John",
+      "lastName": "Doe"
+    }
+  }
+}
