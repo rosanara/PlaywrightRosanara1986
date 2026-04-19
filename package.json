@@ -1,17 +1,26 @@
 {
-  "name": "saucedemo-playwright-tests",
+  "name": "playwright_mcp",
   "version": "1.0.0",
-  "description": "Playwright tests for SauceDemo",
+  "description": "",
+  "main": "index.js",
   "scripts": {
     "test": "playwright test",
     "test:ui": "playwright test --ui",
-    "test:debug": "playwright test --debug",
     "test:headed": "playwright test --headed"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rosanara/PlaywrightRosanara1986.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/rosanara/PlaywrightRosanara1986/issues"
+  },
+  "homepage": "https://github.com/rosanara/PlaywrightRosanara1986#readme",
   "devDependencies": {
-    "@playwright/test": "^1.40.0"
+    "@playwright/test": "^1.59.1"
   }
 }
